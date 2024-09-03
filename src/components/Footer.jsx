@@ -1,9 +1,28 @@
-import React from 'react';
+import React from "react";
+import { Container, Row, Col } from "react-bootstrap";
+import { Link } from "react-router-dom";
 
 const Footer = () => {
   return (
-    <footer>
-      <p>&copy; 2024 Holidaze Booking. All Rights Reserved.</p>
+    <footer className="bg-dark text-light py-4">
+      <Container>
+        <Row>
+          <Col md={4}>
+            <h5 class="text-warning">Holidaze</h5>
+            <p>Discover your next adventure with us.</p>
+          </Col>         
+          <Col md={4}>
+            <h5 className="text-warning">Contact Us</h5>
+            <p>Email: support-holidaze@NotRealEmail.cøm</p>
+            <p>Address: 123 Holidaze Street, Holidaze City</p>
+          </Col>
+        </Row>
+        <Row className="mt-4">
+          <Col className="text-center">
+            <p>&copy; {new Date().getFullYear()} Holidaze. All rights reserved.</p>
+          </Col>
+        </Row>
+      </Container>
     </footer>
   );
 };
