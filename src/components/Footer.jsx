@@ -13,7 +13,7 @@ const Footer = () => {
           </Col>         
           <Col md={4}>
             <h5 className="text-warning">Contact Us</h5>
-            <p>Email: support-holidaze@NotRealEmail.cøm</p>
+            <p>Email: Holidaze@NotRealEmail.cøm</p>
             <p>Address: 123 Holidaze Street, Holidaze City</p>
           </Col>
         </Row>

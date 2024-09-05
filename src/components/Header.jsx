@@ -15,25 +15,22 @@ const Header = () => {
   };
 
   return (
-    <Navbar bg="light" expand="lg" className="mb-4">
+    <Navbar bg="dark" expand="lg" className="mb-4">
       <Navbar.Brand as={Link} to="/" >
         <h2 className="text-warning">Holidaze</h2>
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
+      <Navbar.Toggle aria-controls="basic-navbar-nav"  />
       <Navbar.Collapse id="basic-navbar-nav">
         <Nav className="me-auto">
-          <Nav.Link as={Link} to="/venues">
+          <Nav.Link as={Link} to="/venues" className="text-white">
             Venues
           </Nav.Link>
-          <Nav.Link as={Link} to="/profile">
+          <Nav.Link as={Link} to="/profile" className="text-white">
             Profile
           </Nav.Link>
-          <Nav.Link as={Link} to="/login">
+          <Nav.Link as={Link} to="/login" className="text-white">
             Login
-          </Nav.Link>
-          <Nav.Link as={Link} to="/register">
-            Register
-          </Nav.Link>
+          </Nav.Link>        
         </Nav>
         <Form className="d-flex" onSubmit={handleSearch}>
           <FormControl
@@ -43,7 +40,7 @@ const Header = () => {
             aria-label="Search"
             name="search"
           />
-          <Button variant="outline-success" type="submit">
+          <Button variant="outline-warning" type="submit">
             Search
           </Button>
         </Form>
