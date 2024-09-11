@@ -1,33 +1,83 @@
-import React from 'react';
-import { Container, Row, Col, Card, Button } from 'react-bootstrap';
+import React, { useEffect, useState } from "react";
+import { Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
 
 const Venues = () => {
-  // This will later be replaced with data from an API
-  const venueData = [
-    { id: 1, name: 'Venue One', description: 'A beautiful place to stay.', image: 'https://via.placeholder.com/150' },
-    { id: 2, name: 'Venue Two', description: 'An amazing resort.', image: 'https://via.placeholder.com/150' },
-    { id: 3, name: 'Venue Three', description: 'Luxury at its best.', image: 'https://via.placeholder.com/150' },
-    { id: 4, name: 'Venue Four', description: 'A perfect getaway.', image: 'https://via.placeholder.com/150' },
-  ];
+  const [venues, setVenues] = useState([]);
+
+  useEffect(() => {
+    fetch("https://v2.api.noroff.dev/holidaze/venues")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log("Fetched data:", data);
+        if (Array.isArray(data.data)) {
+          setVenues(data.data);
+        } else {
+          console.error("Expected array but got:", data);
+        }
+      })
+      .catch((error) => console.error("Error fetching venues:", error));
+  }, []);
+
+  if (!Array.isArray(venues)) {
+    return (
+      <div>
+        Error: Venues data is not available or is in an incorrect format.
+      </div>
+    );
+  }
 
   return (
-    <Container className="mt-5">
-      <h1 className="text-center mb-4">Venues</h1>
-      <Row>
-        {venueData.map((venue) => (
-          <Col key={venue.id} md={6} lg={4} className="mb-4">
+    <div>
+      <Grid container spacing={4}>
+        {venues.map((venue) => (
+          <Grid item xs={12} sm={6} md={4} key={venue.id}>
             <Card>
-              <Card.Img variant="top" src={venue.image} alt={venue.name} />
-              <Card.Body>
-                <Card.Title>{venue.name}</Card.Title>
-                <Card.Text>{venue.description}</Card.Text>
-                <Button variant="primary">View Details</Button>
-              </Card.Body>
+              {venue.media && venue.media.length > 0 && (
+                <CardMedia
+                  component="img"
+                  height="200"
+                  image={
+                    typeof venue.media[0] === "string"
+                      ? venue.media[0]
+                      : venue.media[0].url
+                  } // Check if it's a string or object
+                  alt={venue.media[0].alt || "Venue Image"}
+                />
+              )}
+
+              <CardContent>
+                <Typography variant="h5" component="div">
+                {venue.name.length > 20
+                    ? `${venue.name.slice(0, 20)}...`
+                    : venue.name}
+                </Typography>
+
+                <Typography variant="body2" color="text.secondary">
+                  {venue.description.length > 50
+                    ? `${venue.description.slice(0, 50)}...`
+                    : venue.description}
+                </Typography>
+
+                <Typography variant="h6" component="div">
+                  Price: ${venue.price}
+                </Typography>
+
+                <Typography variant="body2" component="div">
+                  Max Guests: {venue.maxGuests}
+                </Typography>
+
+                <Typography variant="body2" component="div">
+                  Rating: {venue.rating}/5
+                </Typography>
+                <button type="button" class="btn btn-warning" id={venue.id}>
+                  Book Now
+                </button>
+              </CardContent>
             </Card>
-          </Col>
+          </Grid>
         ))}
-      </Row>
-    </Container>
+      </Grid>
+    </div>
   );
 };
 
