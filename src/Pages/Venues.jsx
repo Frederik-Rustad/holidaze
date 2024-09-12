@@ -40,19 +40,19 @@ const Venues = () => {
                     typeof venue.media[0] === "string"
                       ? venue.media[0]
                       : venue.media[0].url
-                  } // Check if it's a string or object
+                  } 
                   alt={venue.media[0].alt || "Venue Image"}
                 />
               )}
 
-              <CardContent>
+              <CardContent className="bg-dark text-white">
                 <Typography variant="h5" component="div">
                 {venue.name.length > 20
                     ? `${venue.name.slice(0, 20)}...`
                     : venue.name}
                 </Typography>
 
-                <Typography variant="body2" color="text.secondary">
+                <Typography variant="body2" color="text.white">
                   {venue.description.length > 50
                     ? `${venue.description.slice(0, 50)}...`
                     : venue.description}
@@ -69,7 +69,7 @@ const Venues = () => {
                 <Typography variant="body2" component="div">
                   Rating: {venue.rating}/5
                 </Typography>
-                <button type="button" class="btn btn-warning" id={venue.id}>
+                <button type="button" class="btn btn-outline-warning" id={venue.id}>
                   Book Now
                 </button>
               </CardContent>

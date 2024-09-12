@@ -1,18 +1,53 @@
 import React, { useState } from 'react';
 import { Container, Row, Col, Form, Button, Card } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const Login = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
   const [isAdmin, setIsAdmin] = useState(false);
+  const navigate = useNavigate(); 
 
   const handleRoleChange = (role) => {
     setIsAdmin(role === 'admin');
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle login logic here
-    console.log(`Logging in as ${isAdmin ? 'Admin' : 'User'}`);
+
+    const payload = {
+      email,
+      password,
+    };
+
+    try {
+      const response = await fetch('https://v2.api.noroff.dev/auth/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        const accessToken = result.data.accessToken;        
+        localStorage.setItem('accessToken', accessToken);
+        console.log('Login successful!', result);
+
+        // Redirect user based on role (optional)
+        if (isAdmin) {
+          navigate('/admin-dashboard'); //make admin dashboard page / profile page for admin
+        } else {
+          navigate('/Venues'); 
+        }
+      } else {
+        alert('Invalid email or password');
+      }
+    } catch (error) {
+      console.error('Error during login:', error);
+      alert('Login failed. Please try again.');
+    }
   };
 
   return (
@@ -25,12 +60,24 @@ const Login = () => {
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>
-                  <Form.Control type="email" placeholder="Enter email" required />
+                  <Form.Control
+                    type="email"
+                    placeholder="Enter email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    required
+                  />
                 </Form.Group>
 
                 <Form.Group controlId="formBasicPassword" className="mt-3">
                   <Form.Label>Password</Form.Label>
-                  <Form.Control type="password" placeholder="Password" required />
+                  <Form.Control
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    required
+                  />
                 </Form.Group>
 
                 <Button variant="warning" type="submit" className="w-100 mt-4">

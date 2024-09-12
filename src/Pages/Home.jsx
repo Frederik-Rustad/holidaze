@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
 
 const Home = () => {
   return (
@@ -11,9 +12,11 @@ const Home = () => {
             Your one-stop solution for finding the best holiday destinations around the world.
             Discover beautiful places, plan your trip, and book your stay with us!
           </p>
-          <Button variant="primary" size="lg" className="mt-3">
-            Explore Destinations
-          </Button>
+          <Button variant="dark" size="lg" className="btn btn-outline-warning">
+  <Link to="/Venues" style={{ textDecoration: 'none', color: 'inherit' }}>
+    Explore Destinations
+  </Link>
+</Button>
         </Col>
       </Row>
       <Row className="mt-5">

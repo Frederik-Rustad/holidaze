@@ -7,7 +7,7 @@ const Register = () => {
     email: '',
     password: '',
     confirmPassword: '',
-    avatarUrl: '', // New field for avatar URL
+    avatarUrl: '',
   });
 
   const handleChange = (e) => {
@@ -17,14 +17,56 @@ const Register = () => {
     });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert('Passwords do not match!');
       return;
     }
-    // Handle registration logic here
-    console.log('Form submitted', formData);
+
+    const payload = {
+      name: formData.name,
+      email: formData.email,
+      password: formData.password,
+      avatar: {
+        url: formData.avatarUrl,
+        alt: formData.name + "'s avatar",
+      },
+      venueManager: true, // If you want to add the user as a venue manager
+    };
+
+    if (!formData.email.endsWith('@stud.noroff.no')) {
+      alert('Email must be a valid stud.noroff.no email address');
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      alert('Password must be at least 8 characters long');
+      return;
+    }
+
+    try {
+      const response = await fetch('https://v2.api.noroff.dev/auth/register', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(payload),
+      });
+
+      if (response.status === 201) {
+        const result = await response.json();
+        console.log('Registration successful:', result);
+        alert('Registration successful!');
+      } else {
+        const error = await response.json();
+        console.error('Error registering:', error);
+        alert('Error: ' + error.message);
+      }
+    } catch (error) {
+      console.error('Request failed:', error);
+      alert('Registration failed');
+    }
   };
 
   return (
@@ -91,7 +133,6 @@ const Register = () => {
                     placeholder="Enter the URL for your avatar"
                     value={formData.avatarUrl}
                     onChange={handleChange}
-                    required
                   />
                 </Form.Group>
 
