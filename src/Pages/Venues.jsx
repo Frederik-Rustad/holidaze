@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 const Venues = () => {
   const [venues, setVenues] = useState([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetch("https://v2.api.noroff.dev/holidaze/venues")
@@ -17,6 +19,15 @@ const Venues = () => {
       })
       .catch((error) => console.error("Error fetching venues:", error));
   }, []);
+
+  const handleBookNow = (venueId) => {
+    // Ensure venueId is passed correctly
+    if (venueId) {
+      navigate(`/venues/${venueId}`);
+    } else {
+      console.error("Venue ID is undefined");
+    }
+  };
 
   if (!Array.isArray(venues)) {
     return (
@@ -40,14 +51,14 @@ const Venues = () => {
                     typeof venue.media[0] === "string"
                       ? venue.media[0]
                       : venue.media[0].url
-                  } 
+                  }
                   alt={venue.media[0].alt || "Venue Image"}
                 />
               )}
 
               <CardContent className="bg-dark text-white">
                 <Typography variant="h5" component="div">
-                {venue.name.length > 20
+                  {venue.name.length > 20
                     ? `${venue.name.slice(0, 20)}...`
                     : venue.name}
                 </Typography>
@@ -69,7 +80,11 @@ const Venues = () => {
                 <Typography variant="body2" component="div">
                   Rating: {venue.rating}/5
                 </Typography>
-                <button type="button" class="btn btn-outline-warning" id={venue.id}>
+                <button
+                  type="button"
+                  className="btn btn-outline-warning"
+                  onClick={() => handleBookNow(venue.id)} // Correct venue.id is passed
+                >
                   Book Now
                 </button>
               </CardContent>

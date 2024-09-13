@@ -5,7 +5,7 @@ import Header from "./components/Header";
 import Footer from "./components/Footer";
 import Home from "./Pages/Home";
 import Venues from "./Pages/Venues";
-// import VenuesID from "./Pages/VenuesID";
+import Venue from "./Pages/Venue";
 import Profile from "./Pages/Profile";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
@@ -21,6 +21,7 @@ function App() {
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
+          <Route path="/venues/:venueId" element={<Venue />} />
         </Routes>
       </div>
       <Footer />
