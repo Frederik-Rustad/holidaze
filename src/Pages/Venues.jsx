@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardMedia, CardContent, Typography, Grid } from "@mui/material";
+import { Card, CardMedia, CardContent, Typography, Grid, TextField, Box } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
 const Venues = () => {
   const [venues, setVenues] = useState([]);
+  const [searchQuery, setSearchQuery] = useState("");
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,13 +22,20 @@ const Venues = () => {
   }, []);
 
   const handleBookNow = (venueId) => {
-    // Ensure venueId is passed correctly
     if (venueId) {
       navigate(`/venues/${venueId}`);
     } else {
       console.error("Venue ID is undefined");
     }
   };
+
+  const handleSearchChange = (event) => {
+    setSearchQuery(event.target.value);
+  };
+
+  const filteredVenues = venues.filter((venue) =>
+    venue.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
 
   if (!Array.isArray(venues)) {
     return (
@@ -39,58 +47,77 @@ const Venues = () => {
 
   return (
     <div>
+      {/* Search Bar */}
+      <Box mb={4}>
+        <TextField
+          label="Search Venues"
+          variant="outlined"
+          fullWidth
+          value={searchQuery}
+          onChange={handleSearchChange}
+          placeholder="Search by venue name"
+        />
+      </Box>
+
+      {/* Venue Cards */}
       <Grid container spacing={4}>
-        {venues.map((venue) => (
-          <Grid item xs={12} sm={6} md={4} key={venue.id}>
-            <Card>
-              {venue.media && venue.media.length > 0 && (
-                <CardMedia
-                  component="img"
-                  height="200"
-                  image={
-                    typeof venue.media[0] === "string"
-                      ? venue.media[0]
-                      : venue.media[0].url
-                  }
-                  alt={venue.media[0].alt || "Venue Image"}
-                />
-              )}
+        {filteredVenues.length > 0 ? (
+          filteredVenues.map((venue) => (
+            <Grid item xs={12} sm={6} md={4} key={venue.id}>
+              <Card>
+                {venue.media && venue.media.length > 0 && (
+                  <CardMedia
+                    component="img"
+                    height="200"
+                    image={
+                      typeof venue.media[0] === "string"
+                        ? venue.media[0]
+                        : venue.media[0].url
+                    }
+                    alt={venue.media[0].alt || "Venue Image"}
+                  />
+                )}
 
-              <CardContent className="bg-dark text-white">
-                <Typography variant="h5" component="div">
-                  {venue.name.length > 20
-                    ? `${venue.name.slice(0, 20)}...`
-                    : venue.name}
-                </Typography>
+                <CardContent className="bg-dark text-white">
+                  <Typography variant="h5" component="div">
+                    {venue.name.length > 20
+                      ? `${venue.name.slice(0, 20)}...`
+                      : venue.name}
+                  </Typography>
 
-                <Typography variant="body2" color="text.white">
-                  {venue.description.length > 50
-                    ? `${venue.description.slice(0, 50)}...`
-                    : venue.description}
-                </Typography>
+                  <Typography variant="body2" color="text.white">
+                    {venue.description.length > 50
+                      ? `${venue.description.slice(0, 50)}...`
+                      : venue.description}
+                  </Typography>
 
-                <Typography variant="h6" component="div">
-                  Price: ${venue.price}
-                </Typography>
+                  <Typography variant="h6" component="div">
+                    Price: ${venue.price}
+                  </Typography>
 
-                <Typography variant="body2" component="div">
-                  Max Guests: {venue.maxGuests}
-                </Typography>
+                  <Typography variant="body2" component="div">
+                    Max Guests: {venue.maxGuests}
+                  </Typography>
 
-                <Typography variant="body2" component="div">
-                  Rating: {venue.rating}/5
-                </Typography>
-                <button
-                  type="button"
-                  className="btn btn-outline-warning"
-                  onClick={() => handleBookNow(venue.id)} // Correct venue.id is passed
-                >
-                  Book Now
-                </button>
-              </CardContent>
-            </Card>
-          </Grid>
-        ))}
+                  <Typography variant="body2" component="div">
+                    Rating: {venue.rating}/5
+                  </Typography>
+                  <button
+                    type="button"
+                    className="btn btn-outline-warning"
+                    onClick={() => handleBookNow(venue.id)}
+                  >
+                    Book Now
+                  </button>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <Typography variant="h6" component="div" className="text-center">
+            No No matching venues found.
+          </Typography>
+        )}
       </Grid>
     </div>
   );

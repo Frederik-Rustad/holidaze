@@ -22,7 +22,7 @@ const Venue = () => {
 
   return (
     <Container className="mt-5">
-      <Card>
+      <Card className="text-white bg-dark">
         {venue.media && venue.media.length > 0 && (
           <CardMedia
             component="img"
@@ -41,7 +41,7 @@ const Venue = () => {
             {venue.name}
           </Typography>
 
-          <Typography variant="body1" color="text.secondary">
+          <Typography variant="body1">
             {venue.description}
           </Typography>
 

@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Row, Col, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import bannerImage from '../Assets/Images/773293202477334034.png';
 
 const Home = () => {
   return (
@@ -12,6 +13,7 @@ const Home = () => {
             Your one-stop solution for finding the best holiday destinations around the world.
             Discover beautiful places, plan your trip, and book your stay with us!
           </p>
+          <img src={bannerImage} alt="Banner" style={{ width: '100%', height: 'auto' }} />
           <Button variant="dark" size="lg" className="btn btn-outline-warning">
   <Link to="/Venues" style={{ textDecoration: 'none', color: 'inherit' }}>
     Explore Destinations

@@ -33,14 +33,19 @@ const Login = () => {
         const result = await response.json();
         const accessToken = result.data.accessToken;        
         localStorage.setItem('accessToken', accessToken);
+        const Name = result.data.name;
+        localStorage.setItem('name', Name);
         console.log('Login successful!', result);
 
         // Redirect user based on role (optional)
         if (isAdmin) {
-          navigate('/admin-dashboard'); //make admin dashboard page / profile page for admin
+          navigate('/admin-dashboard'); // Make admin dashboard page / profile page for admin
         } else {
           navigate('/Venues'); 
         }
+
+        // Refresh the page after login to reflect changes in the UI
+        window.location.reload();
       } else {
         alert('Invalid email or password');
       }
