@@ -7,10 +7,8 @@ const Profile = () => {
 
   useEffect(() => {
     const storedName = localStorage.getItem("name");
-    const accessToken = localStorage.getItem("accessToken");   
+    const accessToken = localStorage.getItem("accessToken");
     const API_KEY = "31b3b01a-fb9c-4371-84cc-86fbd8afe728";
-    // console.log("Stored name:", storedName);
-    // console.log("Access token:", accessToken);
 
     if (storedName && accessToken) {
       const fetchProfileData = async () => {
@@ -19,7 +17,7 @@ const Profile = () => {
             method: "GET",
             headers: {
               Authorization: `Bearer ${accessToken}`,
-              "X-Noroff-API-Key": API_KEY,      
+              "X-Noroff-API-Key": API_KEY,
               "Content-Type": "application/json",
             },
           });
@@ -32,7 +30,7 @@ const Profile = () => {
             console.error("Failed to fetch profile data:", response.statusText);
           }
 
-          setLoading(false); 
+          setLoading(false);
         } catch (error) {
           console.error("Error fetching profile data:", error);
           setLoading(false);
@@ -100,6 +98,40 @@ const Profile = () => {
           </Grid>
         </Grid>
       </Card>
+
+      {/* Bookings Section */}
+      <Typography variant="h5" component="div" className="mt-5">
+        Your Bookings
+      </Typography>
+
+      <Grid container spacing={4} className="mt-2">
+        {profileData.bookings && profileData.bookings.length > 0 ? (
+          profileData.bookings.map((booking) => (
+            <Grid item xs={12} md={6} lg={4} key={booking.id}>
+              <Card>
+                <CardContent>
+                  <Typography variant="h6" component="div">
+                    Venue: {booking.venue.name}
+                  </Typography>
+                  <Typography variant="body1" component="div" mt={2}>
+                    Guests: {booking.guests}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary" mt={1}>
+                    From: {booking.dateFrom.slice(0, 10)} 
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    To: {booking.dateTo.slice(0, 10)} 
+                  </Typography>
+                </CardContent>
+              </Card>
+            </Grid>
+          ))
+        ) : (
+          <Typography variant="body1" color="text.secondary" mt={2}>
+            No bookings found.
+          </Typography>
+        )}
+      </Grid>
     </Container>
   );
 };
