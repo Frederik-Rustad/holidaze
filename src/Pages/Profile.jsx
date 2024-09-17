@@ -9,13 +9,13 @@ const Profile = () => {
     const storedName = localStorage.getItem("name");
     const accessToken = localStorage.getItem("accessToken");   
     const API_KEY = "31b3b01a-fb9c-4371-84cc-86fbd8afe728";
-    console.log("Stored name:", storedName);
-    console.log("Access token:", accessToken);
+    // console.log("Stored name:", storedName);
+    // console.log("Access token:", accessToken);
 
     if (storedName && accessToken) {
       const fetchProfileData = async () => {
         try {
-          const response = await fetch(`https://v2.api.noroff.dev/holidaze/profiles/${storedName}`, {
+          const response = await fetch(`https://v2.api.noroff.dev/holidaze/profiles/${storedName}?_bookings=true&_venues=true`, {
             method: "GET",
             headers: {
               Authorization: `Bearer ${accessToken}`,
@@ -27,14 +27,15 @@ const Profile = () => {
           if (response.ok) {
             const result = await response.json();
             setProfileData(result.data);
+            console.log("Fetched profile data:", result);
           } else {
             console.error("Failed to fetch profile data:", response.statusText);
           }
 
-          setLoading(false); // Set loading to false when data is fetched
+          setLoading(false); 
         } catch (error) {
           console.error("Error fetching profile data:", error);
-          setLoading(false); // Set loading to false in case of error
+          setLoading(false);
         }
       };
 

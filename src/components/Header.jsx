@@ -1,23 +1,24 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { Navbar, Nav, Form, FormControl, Button } from "react-bootstrap";
+import { Navbar, Nav, Button } from "react-bootstrap";
+
 
 const Header = () => {
-  const [isLoggedIn, setIsLoggedIn] = useState(false); 
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {    
+  useEffect(() => {
     const token = localStorage.getItem("accessToken");
     if (token) {
       setIsLoggedIn(true);
     }
-  }, []); 
-  
+  }, []);
+
   const handleLogout = () => {
-    localStorage.removeItem("accessToken"); 
+    localStorage.removeItem("accessToken");
     localStorage.removeItem("name");
-    setIsLoggedIn(false); 
-    navigate("/login"); 
+    setIsLoggedIn(false);
+    navigate("/login");
   };
 
   return (
@@ -25,8 +26,9 @@ const Header = () => {
       <Navbar.Brand as={Link} to="/">
         <h2 className="text-warning">Holidaze</h2>
       </Navbar.Brand>
-      <Navbar.Toggle aria-controls="basic-navbar-nav" />
-      <Navbar.Collapse id="basic-navbar-nav">
+      <Navbar.Toggle aria-controls="basic-navbar-nav" className="bg-warning
+      " />
+      <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse "> {/* Add custom class */}
         <Nav className="me-auto">
           <Nav.Link as={Link} to="/venues" className="text-white">
             Venues
@@ -45,7 +47,7 @@ const Header = () => {
               Login
             </Nav.Link>
           )}
-        </Nav>      
+        </Nav>
       </Navbar.Collapse>
     </Navbar>
   );

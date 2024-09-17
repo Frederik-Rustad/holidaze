@@ -44,7 +44,6 @@ const Login = () => {
           navigate('/Venues'); 
         }
 
-        // Refresh the page after login to reflect changes in the UI
         window.location.reload();
       } else {
         alert('Invalid email or password');
@@ -56,7 +55,7 @@ const Login = () => {
   };
 
   return (
-    <Container className="m-5">
+    <Container className="mt-5">
       <Row className="justify-content-center">
         <Col md={6}>
           <Card bg="dark" className="text-white">
