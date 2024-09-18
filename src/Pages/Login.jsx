@@ -35,14 +35,9 @@ const Login = () => {
         localStorage.setItem('accessToken', accessToken);
         const Name = result.data.name;
         localStorage.setItem('name', Name);
-        console.log('Login successful!', result);
-
-        // Redirect user based on role (optional)
-        if (isAdmin) {
-          navigate('/admin-dashboard'); // Make admin dashboard page / profile page for admin
-        } else {
-          navigate('/Venues'); 
-        }
+        navigate('/Venues');
+       
+       
 
         window.location.reload();
       } else {
@@ -88,21 +83,7 @@ const Login = () => {
                   Login
                 </Button>
               </Form>
-              <div className="text-center mt-4">
-                <Button
-                  variant={isAdmin ? 'outline-secondary' : 'warning'}
-                  className="me-2"
-                  onClick={() => handleRoleChange('user')}
-                >
-                  User Login
-                </Button>
-                <Button
-                  variant={isAdmin ? 'warning' : 'outline-secondary'}
-                  onClick={() => handleRoleChange('admin')}
-                >
-                  Admin Login
-                </Button>
-              </div>
+            
               <div className="text-center mt-4">
                 <Link to="/register" className="text-warning">
                   Don't have an account? Register here.
