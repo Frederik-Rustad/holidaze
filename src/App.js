@@ -9,6 +9,7 @@ import Venue from "./Pages/Venue";
 import Profile from "./Pages/Profile";
 import Login from "./Pages/Login";
 import Register from "./Pages/Register";
+import ManagerDashboard from "./Pages/ManagerDashboard";
 
 function App() {
   return (
@@ -22,6 +23,7 @@ function App() {
           <Route path="/Login" element={<Login />} />
           <Route path="/Register" element={<Register />} />
           <Route path="/venues/:venueId" element={<Venue />} />
+          <Route path="/venue-manager" element={<ManagerDashboard />} />
         </Routes>
       </div>
       <Footer />

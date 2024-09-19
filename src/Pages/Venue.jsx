@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { Card, CardMedia, CardContent, Typography, Container, Button, TextField } from "@mui/material";
+import {
+  Card,
+  CardMedia,
+  CardContent,
+  Typography,
+  Container,
+  Button,
+  TextField,
+} from "@mui/material";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
 
@@ -11,8 +19,12 @@ const Venue = () => {
   const [selectedDateRange, setSelectedDateRange] = useState([null, null]);
   const [guests, setGuests] = useState(1);
   const [loading, setLoading] = useState(false);
+  const [accessToken, setAccessToken] = useState(null);
 
   useEffect(() => {
+    const token = localStorage.getItem("accessToken");
+    setAccessToken(token);
+
     fetch(`https://v2.api.noroff.dev/holidaze/venues/${venueId}?_bookings=true`)
       .then((response) => response.json())
       .then((data) => {
@@ -53,19 +65,21 @@ const Venue = () => {
       guests,
       venueId,
     };
-    const accessToken = localStorage.getItem("accessToken");  
     const API_KEY = "31b3b01a-fb9c-4371-84cc-86fbd8afe728";
     try {
       setLoading(true);
-      const response = await fetch("https://v2.api.noroff.dev/holidaze/bookings", {
-        method: "POST",
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-          "X-Noroff-API-Key": API_KEY,      
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(payload),
-      });
+      const response = await fetch(
+        "https://v2.api.noroff.dev/holidaze/bookings",
+        {
+          method: "POST",
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            "X-Noroff-API-Key": API_KEY,
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        }
+      );
 
       if (response.ok) {
         alert("Booking successful!");
@@ -106,9 +120,7 @@ const Venue = () => {
             {venue.name}
           </Typography>
 
-          <Typography variant="body1">
-            {venue.description}
-          </Typography>
+          <Typography variant="body1">{venue.description}</Typography>
 
           <Typography variant="h6" component="div" className="mt-3">
             Price: ${venue.price}
@@ -132,27 +144,53 @@ const Venue = () => {
             />
           </div>
 
-          <div className="mt-4">
-            <Typography variant="h6">Make a Booking</Typography>
-            <TextField
-              label="Guests"
-              type="number"
-              value={guests}
-              onChange={(e) => setGuests(parseInt(e.target.value, 10))}
-              inputProps={{ min: 1, max: venue.maxGuests }}
-              fullWidth
-              className="mt-2"
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleBooking}
-              className="mt-3"
-              disabled={loading}
-            >
-              {loading ? "Booking..." : "Book Now"}
-            </Button>
-          </div>
+          {accessToken && (
+            <div className="mt-4">
+              <Typography variant="h6">Make a Booking</Typography>
+              <TextField
+                label="Guests"
+                type="number"
+                value={guests}
+                onChange={(e) => setGuests(parseInt(e.target.value, 10))}
+                inputProps={{ min: 1, max: venue.maxGuests }}
+                fullWidth
+                className="mt-2"
+                sx={{
+                  input: { color: "white" },
+                  label: { color: "white" },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "white",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "white",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "white",
+                    },
+                  },
+                }}
+                InputLabelProps={{
+                  style: { color: "white" },
+                }}
+              />
+
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleBooking}
+                className="mt-3"
+                disabled={loading}>
+                {loading ? "Booking..." : "Book Now"}
+              </Button>
+            </div>
+          )}
+
+          {!accessToken && (
+            <Typography variant="body2" color="warning" className="mt-4">
+              Please log in to make a booking.
+            </Typography>
+          )}
         </CardContent>
       </Card>
     </Container>
