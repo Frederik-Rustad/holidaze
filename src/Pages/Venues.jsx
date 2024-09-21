@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Venues = () => {
   const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
+  const [visibleVenuesCount, setVisibleVenuesCount] = useState(12); // Initial display count
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -33,10 +34,13 @@ const Venues = () => {
     setSearchQuery(event.target.value);
   };
 
-  const filteredVenues = venues.filter((venue) =>
-    venue.name.toLowerCase().includes(searchQuery.toLowerCase())
-  );
+  const handleLoadMore = () => {
+    setVisibleVenuesCount((prevCount) => prevCount + 12);
+  };
 
+  const filteredVenues = venues
+    .filter((venue) => venue.name.toLowerCase().includes(searchQuery.toLowerCase()))
+    .slice(0, visibleVenuesCount); 
   if (!Array.isArray(venues)) {
     return (
       <div>
@@ -47,7 +51,6 @@ const Venues = () => {
 
   return (
     <div>
-      {/* Search Bar */}
       <Box mb={4}>
         <TextField
           label="Search Venues"
@@ -59,7 +62,6 @@ const Venues = () => {
         />
       </Box>
 
-      {/* Venue Cards */}
       <Grid container spacing={4}>
         {filteredVenues.length > 0 ? (
           filteredVenues.map((venue) => (
@@ -115,10 +117,18 @@ const Venues = () => {
           ))
         ) : (
           <Typography variant="h6" component="div" className="text-center">
-            No No matching venues found.
+            No matching venues found.
           </Typography>
         )}
       </Grid>
+
+      {filteredVenues.length < venues.length && (
+        <Box mt={4} textAlign="center">
+          <button className="btn btn-outline-primary" onClick={handleLoadMore}>
+            Load More
+          </button>
+        </Box>
+      )}
     </div>
   );
 };

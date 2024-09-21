@@ -5,12 +5,8 @@ import { Link, useNavigate } from 'react-router-dom';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [isAdmin, setIsAdmin] = useState(false);
   const navigate = useNavigate(); 
 
-  const handleRoleChange = (role) => {
-    setIsAdmin(role === 'admin');
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -54,8 +50,7 @@ const Login = () => {
       <Row className="justify-content-center">
         <Col md={6}>
           <Card bg="dark" className="text-white">
-            <Card.Body>
-              <h2 className="text-center mb-4">{isAdmin ? 'Admin Login' : 'User Login'}</h2>
+            <Card.Body>              
               <Form onSubmit={handleSubmit}>
                 <Form.Group controlId="formBasicEmail">
                   <Form.Label>Email address</Form.Label>

@@ -11,14 +11,17 @@ import {
   TextField,
   Collapse,
   Checkbox,
-  FormControlLabel,
+  FormControlLabel, 
 } from "@mui/material";
 import VenueManager from "../Assets/Images/Venue_Manager.png";
+import EditProfileModal from "../components/EditProfileModal.jsx";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [creatingVenue, setCreatingVenue] = useState(false);
+  const storedName = localStorage.getItem("name");
+  const accessToken = localStorage.getItem("accessToken")
   const [venueForm, setVenueForm] = useState({
     name: "",
     description: "",
@@ -41,6 +44,7 @@ const Profile = () => {
       lng: 0,
     },
   });
+  
 
   useEffect(() => {
     const storedName = localStorage.getItem("name");
@@ -84,7 +88,7 @@ const Profile = () => {
     }
   }, []);
 
-  const handleDelete = async (bookingId) => {
+    const handleDelete = async (bookingId) => {
     const accessToken = localStorage.getItem("accessToken");
     const API_KEY = "31b3b01a-fb9c-4371-84cc-86fbd8afe728";
 
@@ -128,8 +132,6 @@ const Profile = () => {
   const handleCreateVenue = async () => {
     const accessToken = localStorage.getItem("accessToken");
     const API_KEY = "31b3b01a-fb9c-4371-84cc-86fbd8afe728";
-
-    // Ensuring media is set correctly
     const formattedVenueForm = {
       ...venueForm,
       price: Number(venueForm.price),
@@ -201,7 +203,6 @@ const Profile = () => {
       <Card>
         <Grid container spacing={2}>
           <Grid item xs={12} md={4} className="text-center">
-            {/* Avatar */}
             {profileData.avatar && profileData.avatar.url ? (
               <Avatar
                 alt={profileData.avatar.alt || "User Avatar"}
@@ -218,7 +219,8 @@ const Profile = () => {
             <CardContent>
               <Typography variant="h4" component="div">
                 {profileData.name}
-              </Typography>
+              </Typography>             
+           <EditProfileModal storedName={storedName} accessToken={accessToken} />
               <Typography variant="body1" color="text.secondary">
                 Email: {profileData.email}
               </Typography>
@@ -267,7 +269,7 @@ const Profile = () => {
                         value={venueForm.description}
                         onChange={handleVenueFormChange}
                         multiline
-                        rows={4} // Adjust the number of rows as needed
+                        rows={4}
                         sx={{ mt: 2 }}
                       />
 
@@ -413,7 +415,6 @@ const Profile = () => {
         </Grid>
       </Card>
 
-      {/* Bookings list */}
       <Typography variant="h5" component="div" className="mt-5">
         Your Bookings
       </Typography>

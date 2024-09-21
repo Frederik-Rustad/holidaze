@@ -8,14 +8,14 @@ const Register = () => {
     password: '',
     confirmPassword: '',
     avatarUrl: '',
-    venueManager: false,  // New state for venue manager checkbox
+    venueManager: false,  
   });
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setFormData({
       ...formData,
-      [name]: type === 'checkbox' ? checked : value, // Handle checkbox for venueManager
+      [name]: type === 'checkbox' ? checked : value, 
     });
   };
 
@@ -34,7 +34,7 @@ const Register = () => {
         url: formData.avatarUrl,
         alt: formData.name + "'s avatar",
       },
-      venueManager: formData.venueManager, // Add venue manager to the payload
+      venueManager: formData.venueManager,
     };
 
     if (!formData.email.endsWith('@stud.noroff.no')) {
@@ -141,7 +141,7 @@ const Register = () => {
                 <Form.Group controlId="formVenueManager" className="mt-3">
                   <Form.Check
                     type="checkbox"
-                    label="I am a venue manager"
+                    label="Register as a Venue Manager"
                     name="venueManager"
                     checked={formData.venueManager}
                     onChange={handleChange}

@@ -14,8 +14,8 @@ const Home = () => {
             Discover beautiful places, plan your trip, and book your stay with us!
           </p>
           <img src={bannerImage} alt="Banner" style={{ width: '100%', height: 'auto' }} />
-          <Button variant="dark" size="lg" className="btn btn-outline-warning">
-  <Link to="/Venues" style={{ textDecoration: 'none', color: 'inherit' }}>
+          <Button variant="dark" size="lg" className="btn btn-outline-warning mt-3">
+  <Link to="/Venues"  style={{ textDecoration: 'none', color: 'inherit' }} >
     Explore Destinations
   </Link>
 </Button>
