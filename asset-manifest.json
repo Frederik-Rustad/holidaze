@@ -1,16 +1,16 @@
 {
   "files": {
     "main.css": "/holidaze/static/css/main.175cc1fe.css",
-    "main.js": "/holidaze/static/js/main.9b2fa17f.js",
+    "main.js": "/holidaze/static/js/main.2118d338.js",
     "static/js/453.b41c4813.chunk.js": "/holidaze/static/js/453.b41c4813.chunk.js",
     "static/media/png": "/holidaze/static/media/773293202477334034.3112772f4b746521e4f5.png",
     "index.html": "/holidaze/index.html",
     "main.175cc1fe.css.map": "/holidaze/static/css/main.175cc1fe.css.map",
-    "main.9b2fa17f.js.map": "/holidaze/static/js/main.9b2fa17f.js.map",
+    "main.2118d338.js.map": "/holidaze/static/js/main.2118d338.js.map",
     "453.b41c4813.chunk.js.map": "/holidaze/static/js/453.b41c4813.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.175cc1fe.css",
-    "static/js/main.9b2fa17f.js"
+    "static/js/main.2118d338.js"
   ]
 }
