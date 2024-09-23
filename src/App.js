@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Header from "./components/Header";
 import Footer from "./components/Footer";
@@ -17,7 +17,7 @@ function App() {
       <Header />
       <div className="content">
         <Routes>
-          <Route path="/" element={<Home />} />
+          <Route path="/Holidaze" element={<Home />} />
           <Route path="/Venues" element={<Venues />} />
           <Route path="/Profile" element={<Profile />} />
           <Route path="/Login" element={<Login />} />

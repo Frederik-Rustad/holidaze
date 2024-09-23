@@ -13,7 +13,7 @@ const Home = () => {
             Your one-stop solution for finding the best holiday destinations around the world.
             Discover beautiful places, plan your trip, and book your stay with us!
           </p>
-          <img src={bannerImage} alt="Banner" style={{ width: '100%', height: 'auto' }} />
+          <img src={bannerImage} alt="Banner" style={{ width: '80%', height: 'auto' }} />
           <Button variant="dark" size="lg" className="btn btn-outline-warning mt-3">
   <Link to="/Venues"  style={{ textDecoration: 'none', color: 'inherit' }} >
     Explore Destinations

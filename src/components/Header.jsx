@@ -23,7 +23,7 @@ const Header = () => {
 
   return (
     <Navbar bg="dark" expand="lg" className="mb-4">
-      <Navbar.Brand as={Link} to="/">
+      <Navbar.Brand as={Link} to="/holidaze">
         <h2 className="text-warning">Holidaze</h2>
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="bg-warning

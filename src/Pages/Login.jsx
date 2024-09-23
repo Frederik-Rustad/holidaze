@@ -31,10 +31,8 @@ const Login = () => {
         localStorage.setItem('accessToken', accessToken);
         const Name = result.data.name;
         localStorage.setItem('name', Name);
-        navigate('/Venues');
-       
-       
-
+        navigate('/holidaze');
+        
         window.location.reload();
       } else {
         alert('Invalid email or password');
