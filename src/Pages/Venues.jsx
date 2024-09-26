@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 const Venues = () => {
   const [venues, setVenues] = useState([]);
   const [searchQuery, setSearchQuery] = useState("");
-  const [visibleVenuesCount, setVisibleVenuesCount] = useState(12); // Initial display count
+  const [visibleVenuesCount, setVisibleVenuesCount] = useState(12);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -44,7 +44,7 @@ const Venues = () => {
   if (!Array.isArray(venues)) {
     return (
       <div>
-        Error: Venues data is not available or is in an incorrect format.
+        Error: Venues data is not available.
       </div>
     );
   }
@@ -109,7 +109,7 @@ const Venues = () => {
                     className="btn btn-outline-warning"
                     onClick={() => handleBookNow(venue.id)}
                   >
-                    Book Now
+                    View more
                   </button>
                 </CardContent>
               </Card>

@@ -14,7 +14,7 @@ import {
   FormControlLabel, 
 } from "@mui/material";
 import VenueManager from "../Assets/Images/Venue_Manager.png";
-import EditProfileModal from "../components/EditProfileModal.jsx";
+import EditProfileModal from "../utils/EditProfileModal.jsx";
 
 const Profile = () => {
   const [profileData, setProfileData] = useState(null);

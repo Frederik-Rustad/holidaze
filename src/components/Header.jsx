@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { Navbar, Nav, Button } from "react-bootstrap";
+import HolidazeLogo from '../Assets/Images/Holidaze_logo.png';
 
 
 const Header = () => {
@@ -23,12 +24,12 @@ const Header = () => {
 
   return (
     <Navbar bg="dark" expand="lg" className="mb-4">
-      <Navbar.Brand as={Link} to="/holidaze">
-        <h2 className="text-warning">Holidaze</h2>
+      <Navbar.Brand as={Link} to="/Holidaze">
+        <img src={HolidazeLogo} alt="Holidaze_logo" />
       </Navbar.Brand>
       <Navbar.Toggle aria-controls="basic-navbar-nav" className="bg-warning
       " />
-      <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse "> {/* Add custom class */}
+      <Navbar.Collapse id="basic-navbar-nav" className="custom-collapse"> {/* Add custom class */}
         <Nav className="me-auto">
           <Nav.Link as={Link} to="/venues" className="text-white">
             Venues

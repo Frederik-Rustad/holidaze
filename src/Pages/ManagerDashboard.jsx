@@ -15,6 +15,7 @@ import {
   Checkbox,
   FormControlLabel,
 } from "@mui/material";
+import { Image } from "react-bootstrap";
 
 const ManagerDashboard = () => {
   const [venues, setVenues] = useState([]);
@@ -193,6 +194,7 @@ const ManagerDashboard = () => {
             <Card>
               <CardContent>
                 <Typography variant="h6">{venue.name}</Typography>
+                <Image height="50" src={venue.media[0].url} alt={venue.media[0].alt} />
                 <Typography variant="body2" color="text.secondary">
                   {venue.description}
                 </Typography>

@@ -11,6 +11,9 @@ import {
 } from "@mui/material";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
+import Tags from "../utils/Tags";
+import DisplaySingleVenue from "../utils/DisplaySingleVenue";
+import handleBooking from "../utils/HandleBooking"; 
 
 const Venue = () => {
   const { venueId } = useParams();
@@ -20,6 +23,7 @@ const Venue = () => {
   const [guests, setGuests] = useState(1);
   const [loading, setLoading] = useState(false);
   const [accessToken, setAccessToken] = useState(null);
+  const [totalPrice, setTotalPrice] = useState(0);
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
@@ -48,52 +52,18 @@ const Venue = () => {
     });
   };
 
-  const handleBooking = async () => {
-    if (!selectedDateRange[0] || !selectedDateRange[1]) {
-      alert("Please select a valid date range.");
-      return;
+  useEffect(() => {
+    if (selectedDateRange[0] && selectedDateRange[1] && venue?.price) {
+      const startDate = new Date(selectedDateRange[0]);
+      const endDate = new Date(selectedDateRange[1]);
+      const timeDifference = endDate.getTime() - startDate.getTime();
+      const numberOfDays = Math.ceil(timeDifference / (1000 * 3600 * 24));
+      const calculatedTotalPrice = numberOfDays * venue.price;
+      setTotalPrice(calculatedTotalPrice);
+    } else {
+      setTotalPrice(0);
     }
-
-    if (guests < 1 || guests > venue.maxGuests) {
-      alert(`Please select between 1 and ${venue.maxGuests} guests.`);
-      return;
-    }
-
-    const payload = {
-      dateFrom: selectedDateRange[0],
-      dateTo: selectedDateRange[1],
-      guests,
-      venueId,
-    };
-    const API_KEY = "31b3b01a-fb9c-4371-84cc-86fbd8afe728";
-    try {
-      setLoading(true);
-      const response = await fetch(
-        "https://v2.api.noroff.dev/holidaze/bookings",
-        {
-          method: "POST",
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            "X-Noroff-API-Key": API_KEY,
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(payload),
-        }
-      );
-
-      if (response.ok) {
-        alert("Booking successful!");
-      } else {
-        const error = await response.json();
-        alert(`Error: ${error.message}`);
-      }
-    } catch (error) {
-      console.error("Error making booking:", error);
-      alert("Booking failed, please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+  }, [selectedDateRange, venue?.price]);
 
   if (!venue) {
     return <div>Loading...</div>;
@@ -116,26 +86,11 @@ const Venue = () => {
         )}
 
         <CardContent>
-          <Typography variant="h4" component="div">
-            {venue.name}
-          </Typography>
-
-          <Typography variant="body1">{venue.description}</Typography>
-
-          <Typography variant="h6" component="div" className="mt-3">
-            Price: ${venue.price}
-          </Typography>
-
-          <Typography variant="body2" component="div" className="mt-2">
-            Max Guests: {venue.maxGuests}
-          </Typography>
-
-          <Typography variant="body2" component="div" className="mt-2">
-            Rating: {venue.rating}/5
-          </Typography>
-
+          <DisplaySingleVenue key={venue.id} venue={venue} />
+          <Tags venue={venue} />
+          
           <div className="mt-4">
-            <Typography variant="h6">Availability</Typography>
+            <Typography variant="h6">Make a Booking</Typography>
             <Calendar
               selectRange={true}
               tileDisabled={({ date }) => isDateDisabled(date)}
@@ -146,7 +101,6 @@ const Venue = () => {
 
           {accessToken && (
             <div className="mt-4">
-              <Typography variant="h6">Make a Booking</Typography>
               <TextField
                 label="Guests"
                 type="number"
@@ -175,12 +129,26 @@ const Venue = () => {
                 }}
               />
 
+              <Typography variant="h6" className="mt-3">
+                Total Price: ${totalPrice}
+              </Typography>
+
               <Button
                 variant="contained"
                 color="primary"
-                onClick={handleBooking}
+                onClick={() =>
+                  handleBooking(
+                    venue,
+                    selectedDateRange,
+                    guests,
+                    venueId,
+                    accessToken,
+                    setLoading
+                  )
+                }
                 className="mt-3"
-                disabled={loading}>
+                disabled={loading}
+              >
                 {loading ? "Booking..." : "Book Now"}
               </Button>
             </div>

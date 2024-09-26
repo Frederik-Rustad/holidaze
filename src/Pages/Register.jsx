@@ -72,7 +72,7 @@ const Register = () => {
   };
 
   return (
-    <Container className="m-5">
+    <Container className="mt-5">
       <Row className="justify-content-center">
         <Col md={6}>
           <Card bg="dark" className="text-white">

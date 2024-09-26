@@ -1,5 +1,6 @@
 import React from "react";
 import { Container, Row, Col } from "react-bootstrap";
+import HolidazeLogo from '../Assets/Images/Holidaze_logo.png';
 
 const Footer = () => {
   return (
@@ -7,7 +8,7 @@ const Footer = () => {
       <Container>
         <Row>
           <Col md={4}>
-            <h5 className="text-warning">Holidaze</h5>
+            <img src={HolidazeLogo} alt="Holidaze_logo" style={{ height: '30px', width: 'auto' }} />
             <p>Discover your next adventure with us.</p>
           </Col>         
           <Col md={4}>
